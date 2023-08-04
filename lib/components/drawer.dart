@@ -13,7 +13,7 @@ class DrawerMenu extends StatelessWidget {
           ),
           child: Column(
             children: [
-              Column(
+              const Column(
                 children: [
                   CircleAvatar(
                     radius: 70,
