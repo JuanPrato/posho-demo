@@ -5,19 +5,28 @@ class ItemCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       children: [
         Card(
-          elevation: 8,
-          clipBehavior: Clip.hardEdge,
-          child: const Image(
+            elevation: 4,
+            clipBehavior: Clip.hardEdge,
+            child: Image(
               image: AssetImage("assets/product.jpeg"),
               fit: BoxFit.cover,
-          )
+            )),
+        Text(
+          "Alitas picantes",
+          style: TextStyle(
+            fontSize: 22,
+          ),
         ),
-        Text("Alitas picantes",
-        style: TextStyle(fontSize: 22, ),),
-        Text("\$2000", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),)
+        Text(
+          "\$2000",
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w600,
+          ),
+        )
       ],
     );
   }

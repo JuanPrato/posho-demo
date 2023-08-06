@@ -10,13 +10,13 @@ class Coupon extends StatefulWidget {
 }
 
 class _Coupon extends State<Coupon> {
-
   double scale = 1;
 
   @override
   void initState() {
     super.initState();
     Timer t = Timer.periodic(const Duration(milliseconds: 800), (timer) {
+      if (!mounted) return;
       setState(() {
         scale = scale == 1 ? 1.1 : 1;
       });
@@ -26,20 +26,18 @@ class _Coupon extends State<Coupon> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: const EdgeInsets.only(bottom: 10, right: 10),
-      elevation: 8,
-      clipBehavior: Clip.hardEdge,
-      child: Stack(
-        alignment: Alignment.centerLeft,
-        children: [
-          Image(
+        margin: const EdgeInsets.only(bottom: 10, right: 10),
+        elevation: 8,
+        clipBehavior: Clip.hardEdge,
+        child: Stack(alignment: Alignment.centerLeft, children: [
+          const Image(
             image: AssetImage("assets/coupons.png"),
             height: 600,
             fit: BoxFit.cover,
           ),
           Container(
             height: 500,
-            padding: EdgeInsets.symmetric(vertical: 10),
+            padding: const EdgeInsets.symmetric(vertical: 10),
             child: Column(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -49,17 +47,15 @@ class _Coupon extends State<Coupon> {
                   child: Text(
                     "2x1 EN POLLOS",
                     style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 40,
-                      fontWeight: FontWeight.bold,
-                      shadows: [
-                        Shadow(
-                          color: Colors.white,
-                          offset: Offset(10, 10),
-                          blurRadius: 15
-                        )
-                      ]
-                    ),
+                        color: Colors.white,
+                        fontSize: 40,
+                        fontWeight: FontWeight.bold,
+                        shadows: [
+                          Shadow(
+                              color: Colors.white,
+                              offset: Offset(10, 10),
+                              blurRadius: 15)
+                        ]),
                   ),
                 ),
                 AnimatedScale(
@@ -72,19 +68,15 @@ class _Coupon extends State<Coupon> {
                       padding: MaterialStatePropertyAll(EdgeInsets.all(16)),
                     ),
                     child: const Text("OBTENER DESCUENTO",
-                      style: TextStyle(
-                        fontSize: 22,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold
-                      )
-                    ),
+                        style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold)),
                   ),
                 ),
               ],
             ),
           )
-        ]
-      )
-    );
+        ]));
   }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:posho/components/best_menu.dart';
 import 'package:posho/components/coupons.dart';
-import 'package:posho/components/drawer.dart';
+import 'package:posho/components/drawer/drawer.dart';
 import 'package:posho/components/menu.dart';
 
 void main() {
@@ -15,7 +15,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'POSHO',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
         useMaterial3: true,
@@ -35,17 +36,13 @@ class MyHomePage extends StatelessWidget {
       drawer: DrawerMenu(),
       appBar: AppBar(
         backgroundColor: Colors.red,
-        title: const Text(
-          'POSHO 🐔',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold
-          )
-        ),
+        title: const Text('POSHO 🐔',
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
         leading: OpenDrawerIcon(),
+        elevation: 10,
       ),
       body: const Padding(
-        padding: EdgeInsets.all(8.0),
+        padding: EdgeInsets.symmetric(horizontal: 8.0),
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: Column(
@@ -68,15 +65,10 @@ class OpenDrawerIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      icon: const Icon(
-          Icons.menu,
-          color: Colors.white,
-          size: 32
-      ),
+      icon: const Icon(Icons.menu, color: Colors.white, size: 32),
       onPressed: () {
         Scaffold.of(context).openDrawer();
       },
     );
   }
-
 }

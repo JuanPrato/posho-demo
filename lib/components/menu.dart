@@ -13,19 +13,14 @@ class Menu extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Text("Nuestro menú",
-            style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                height: 2
-              ),
+            const Text(
+              "Nuestro menú",
+              style: TextStyle(
+                  fontSize: 24, fontWeight: FontWeight.bold, height: 2),
             ),
             TextButton(
-              child: const Text("Ver más",
-              style: TextStyle(
-                fontSize: 16
-              )),
-              onPressed: () {  },
+              child: const Text("Ver más", style: TextStyle(fontSize: 16)),
+              onPressed: () {},
             )
           ],
         ),
@@ -33,6 +28,7 @@ class Menu extends StatelessWidget {
           primary: false,
           crossAxisCount: 2,
           shrinkWrap: true,
+          childAspectRatio: 90 / 100,
           children: [
             ItemCard(),
             ItemCard(),
@@ -40,7 +36,6 @@ class Menu extends StatelessWidget {
             ItemCard(),
           ],
         ),
-
       ],
     );
   }
