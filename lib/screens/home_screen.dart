@@ -10,18 +10,18 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.symmetric(horizontal: 8.0),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Column(
           children: <Widget>[
             BestOfMenu(),
-            SizedBox(height: 10),
-            Coupons(),
-            SizedBox(height: 10),
-            Menu(),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
+            const Coupons(),
+            const SizedBox(height: 10),
+            const Menu(),
+            const SizedBox(height: 10),
           ],
         ),
       ),

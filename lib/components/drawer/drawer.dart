@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:posho/components/drawer/drawer_header.dart';
 import 'package:posho/components/drawer/drawer_options.dart';
+import 'package:posho/main.dart';
+import 'package:provider/provider.dart';
 
 class DrawerMenu extends StatelessWidget {
-  const DrawerMenu({super.key, required this.onNavigation});
-
-  final Function(String) onNavigation;
-
+  const DrawerMenu({super.key});
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -22,7 +21,11 @@ class DrawerMenu extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            Expanded(child: DrawerOptions(onNavigation: onNavigation)),
+            Expanded(
+              child: DrawerOptions(onNavigation: (String newRoute) {
+                context.read<Navigation>().navigate(newRoute);
+              }),
+            ),
           ],
         ),
       ),
