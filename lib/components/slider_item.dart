@@ -8,7 +8,6 @@ class SliderItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(item);
     return Card(
         elevation: 4,
         clipBehavior: Clip.hardEdge,
