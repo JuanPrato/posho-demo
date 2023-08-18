@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:posho/components/drawer/drawer.dart';
 import 'package:posho/screens/home_screen.dart';
 import 'package:provider/provider.dart';
@@ -18,12 +19,14 @@ class Navigation with ChangeNotifier {
 }
 
 Future<void> main() async {
+  await dotenv.load(fileName: "assets/.env");
+
   WidgetsFlutterBinding.ensureInitialized();
 
   await Supabase.initialize(
-      url: "https://tczhmpjaswycuergjiiq.supabase.co",
-      anonKey:
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRjemhtcGphc3d5Y3VlcmdqaWlxIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTE5ODEyMjIsImV4cCI6MjAwNzU1NzIyMn0.WT78w5r_ZQogaskP2jTfTsjWhpza9C6d4NGF3LZS-wk");
+    url: dotenv.env["SUPABASE_URL"]!,
+    anonKey: dotenv.env["SUPABASE_ANONKEY"]!,
+  );
 
   runApp(MultiProvider(
     providers: [ChangeNotifierProvider(create: (_) => Navigation())],
@@ -78,6 +81,7 @@ String getTitle(String route) {
   final Map<String, String> titles = {
     '/': 'POSHO 🐔',
     '/menu': 'MENU',
+    '/coupons': 'CUPONES',
   };
   return titles[route]!;
 }
@@ -87,6 +91,7 @@ class ScreenManager extends StatelessWidget {
   final Map<String, Widget Function(BuildContext)> routes = {
     '/': (context) => const HomeScreen(title: 'Inicio'),
     '/menu': (context) => const MenuScreen(title: 'Menu'),
+    '/coupons': (context) => const MenuScreen(title: 'Cupones'),
   };
 
   @override

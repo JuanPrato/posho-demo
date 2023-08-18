@@ -1,26 +1,36 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:posho/models/coupon.dart';
 
-class Coupon extends StatefulWidget {
-  const Coupon({super.key});
+class CouponCard extends StatefulWidget {
+  const CouponCard({super.key, required this.coupon});
+
+  final Coupon coupon;
 
   @override
-  State<Coupon> createState() => _Coupon();
+  State<CouponCard> createState() => _CouponCard();
 }
 
-class _Coupon extends State<Coupon> {
+class _CouponCard extends State<CouponCard> {
   double scale = 1;
+  late Timer t;
 
   @override
   void initState() {
     super.initState();
-    Timer t = Timer.periodic(const Duration(milliseconds: 800), (timer) {
+    t = Timer.periodic(const Duration(milliseconds: 800), (timer) {
       if (!mounted) return;
       setState(() {
         scale = scale == 1 ? 1.1 : 1;
       });
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    t.cancel();
   }
 
   @override
@@ -42,11 +52,11 @@ class _Coupon extends State<Coupon> {
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Padding(
-                  padding: EdgeInsets.only(left: 15.0),
+                Padding(
+                  padding: const EdgeInsets.only(left: 15.0),
                   child: Text(
-                    "2x1 EN POLLOS",
-                    style: TextStyle(
+                    widget.coupon.title,
+                    style: const TextStyle(
                         color: Colors.white,
                         fontSize: 40,
                         fontWeight: FontWeight.bold,

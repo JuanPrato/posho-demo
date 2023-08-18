@@ -18,7 +18,7 @@ class HomeScreen extends StatelessWidget {
           children: <Widget>[
             BestOfMenu(),
             const SizedBox(height: 10),
-            const Coupons(),
+            Coupons(),
             const SizedBox(height: 10),
             const Menu(),
             const SizedBox(height: 10),

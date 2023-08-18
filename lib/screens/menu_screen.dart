@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:posho/components/item_card.dart';
 import 'package:posho/components/menu/category.dart';
 import 'package:posho/components/menu/category_selector.dart';
+import 'package:posho/models/product.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class MenuScreen extends StatefulWidget {
   const MenuScreen({super.key, required this.title});
@@ -14,16 +16,9 @@ class MenuScreen extends StatefulWidget {
 
 class _MenuScreenState extends State<MenuScreen>
     with SingleTickerProviderStateMixin {
-  final List<Widget> foods = [
-    const ItemCard(),
-    const ItemCard(),
-    const ItemCard(),
-    const ItemCard(),
-    const ItemCard(),
-    const ItemCard(),
-    const ItemCard(),
-  ];
   late TabController _tabController;
+
+  final _products = Supabase.instance.client.from("products").select();
 
   @override
   void initState() {
@@ -58,14 +53,25 @@ class _MenuScreenState extends State<MenuScreen>
         ),
         CategorySelector(tabController: _tabController),
         Expanded(
-          child: TabBarView(
-            controller: _tabController,
-            children: [
-              Category(foods: foods),
-              Category(foods: foods),
-              Category(foods: foods),
-              Category(foods: foods),
-            ],
+          child: FutureBuilder(
+            future: _products,
+            builder: (context, snapshot) {
+              final List<Widget> foods = snapshot.hasData
+                  ? snapshot.data
+                      .map<Product>(Product.getProductFromSnapshot)
+                      .map<ItemCard>((p) => ItemCard(product: p))
+                      .toList()
+                  : [];
+              return TabBarView(
+                controller: _tabController,
+                children: [
+                  Category(foods: foods),
+                  Category(foods: foods),
+                  Category(foods: foods),
+                  Category(foods: foods),
+                ],
+              );
+            },
           ),
         )
       ],
