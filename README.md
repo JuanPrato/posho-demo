@@ -1,16 +1,19 @@
-# posho
+# RESUMEN
 
 POSHO DEMO APP
 
-## Getting Started
+App de practica para el restorant de POSHO 🍗
 
-This project is a starting point for a Flutter application.
+Tecnologias utilizadas:
 
-A few resources to get you started if this is your first Flutter project:
+flutter - supabase
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Para levantar el proyecto
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Se asume que ya se tiene instalado el sdk de flutter y un emulador.
+
+Crear un proyecto de supabase o iniciar en local.
+
+Crear un archivo .env en assets y cargalo.
+
+Luego agregar la url y anonKey de Supabase e iniciar el proyecto.
