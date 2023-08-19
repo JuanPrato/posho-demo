@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:posho/components/item_card.dart';
+import 'package:posho/components/menu/categories.dart';
 import 'package:posho/components/menu/category.dart';
 import 'package:posho/components/menu/category_selector.dart';
+import 'package:posho/models/category.dart';
 import 'package:posho/models/product.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -14,29 +16,18 @@ class MenuScreen extends StatefulWidget {
   State<MenuScreen> createState() => _MenuScreenState();
 }
 
-class _MenuScreenState extends State<MenuScreen>
-    with SingleTickerProviderStateMixin {
-  late TabController _tabController;
+class _MenuScreenState extends State<MenuScreen> {
+  final _products = Supabase.instance.client.from("products").select('''
+              *,
+              categories (
+                name
+              )
+              ''');
 
-  final _products = Supabase.instance.client.from("products").select();
-
-  @override
-  void initState() {
-    super.initState();
-    _tabController = TabController(
-      length: categories.length,
-      vsync: this,
-    );
-    _tabController.addListener(() {
-      print(_tabController.index);
-    });
-  }
-
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
-  }
+  final _categories = Supabase.instance.client
+      .from("categories")
+      .select()
+      .order("order", ascending: true);
 
   @override
   Widget build(BuildContext context) {
@@ -51,29 +42,26 @@ class _MenuScreenState extends State<MenuScreen>
             ),
           ),
         ),
-        CategorySelector(tabController: _tabController),
         Expanded(
           child: FutureBuilder(
-            future: _products,
-            builder: (context, snapshot) {
-              final List<Widget> foods = snapshot.hasData
-                  ? snapshot.data
-                      .map<Product>(Product.getProductFromSnapshot)
-                      .map<ItemCard>((p) => ItemCard(product: p))
-                      .toList()
-                  : [];
-              return TabBarView(
-                controller: _tabController,
-                children: [
-                  Category(foods: foods),
-                  Category(foods: foods),
-                  Category(foods: foods),
-                  Category(foods: foods),
-                ],
-              );
+            future: Future.wait([_categories, _products]),
+            builder: (context, futures) {
+              if (!futures.hasData || futures.data == null) {
+                return const Text("loading");
+              }
+              var [categoriesRaw, productsRaw] = futures.data!;
+
+              final List<Product> products = productsRaw
+                  .map<Product>(Product.getProductFromSnapshot)
+                  .toList();
+              final List<CategoryModel> categories = categoriesRaw
+                  .map<CategoryModel>(CategoryModel.getCategoryFromSnapshot)
+                  .toList();
+
+              return Categories(categories: categories, products: products);
             },
           ),
-        )
+        ),
       ],
     );
   }

@@ -27,7 +27,11 @@ class DrawerOptions extends StatelessWidget {
           icon: Icons.menu_book,
           onPressed: createFunction(context, '/menu'),
         ),
-        const DrawerItem(title: "PROMOCIONES", icon: Icons.money_rounded),
+        DrawerItem(
+          title: "PROMOCIONES",
+          icon: Icons.money_rounded,
+          onPressed: createFunction(context, '/coupons'),
+        ),
         const DrawerItem(
           title: "PEDIDOS",
           icon: Icons.history,

@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
-
-final categories = ["Todo", "Bandejas", "Para 2", "Bebidas"];
+import 'package:posho/models/category.dart';
 
 class CategorySelector extends StatelessWidget {
-  const CategorySelector({super.key, required this.tabController});
+  const CategorySelector(
+      {super.key, required this.tabController, required this.categories});
   final TabController tabController;
+  final List<CategoryModel> categories;
   @override
   Widget build(BuildContext context) {
     return TabBar(
       controller: tabController,
-      tabs:
-          categories.map((category) => SelectItem(category: category)).toList(),
+      tabs: [CategoryModel("Todo"), ...categories]
+          .map((category) => SelectItem(category: category.name))
+          .toList(),
     );
   }
 }
