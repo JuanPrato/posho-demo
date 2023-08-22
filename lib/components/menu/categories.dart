@@ -19,6 +19,7 @@ class Categories extends StatefulWidget {
 class _CategoriesState extends State<Categories>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  late List<Product> productsToShow = widget.products;
 
   @override
   void initState() {
@@ -37,10 +38,32 @@ class _CategoriesState extends State<Categories>
 
   @override
   Widget build(BuildContext context) {
-    var foodMap = getMapByCategory(widget.products);
+    var foodMap = getMapByCategory(productsToShow);
 
     return Column(
       children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
+          child: TextFormField(
+            decoration: const InputDecoration(
+              hintText: 'Busca tu plato favorito...',
+              prefixIcon: Icon(Icons.search),
+            ),
+            onChanged: (value) {
+              setState(() {
+                if (value == '') {
+                  productsToShow = widget.products;
+                  return;
+                }
+                productsToShow = widget.products
+                    .where((element) => element.name
+                        .toLowerCase()
+                        .contains(value.toLowerCase()))
+                    .toList();
+              });
+            },
+          ),
+        ),
         CategorySelector(
           tabController: _tabController,
           categories: widget.categories,
@@ -49,7 +72,7 @@ class _CategoriesState extends State<Categories>
           child: TabBarView(
             controller: _tabController,
             children: [
-              Category(foods: getWidgetFromProducts(widget.products)),
+              Category(foods: getWidgetFromProducts(productsToShow)),
               Category(foods: getWidgetFromProducts(foodMap['Bandejas'])),
               Category(foods: getWidgetFromProducts(foodMap['Para 2'])),
               Category(foods: getWidgetFromProducts(foodMap['Bebidas'])),

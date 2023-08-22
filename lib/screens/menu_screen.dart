@@ -31,38 +31,22 @@ class _MenuScreenState extends State<MenuScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
-          child: TextFormField(
-            decoration: const InputDecoration(
-              hintText: 'Busca tu plato favorito...',
-              prefixIcon: Icon(Icons.search),
-            ),
-          ),
-        ),
-        Expanded(
-          child: FutureBuilder(
-            future: Future.wait([_categories, _products]),
-            builder: (context, futures) {
-              if (!futures.hasData || futures.data == null) {
-                return const Text("loading");
-              }
-              var [categoriesRaw, productsRaw] = futures.data!;
+    return FutureBuilder(
+      future: Future.wait([_categories, _products]),
+      builder: (context, futures) {
+        if (!futures.hasData || futures.data == null) {
+          return const Text("loading");
+        }
+        var [categoriesRaw, productsRaw] = futures.data!;
 
-              final List<Product> products = productsRaw
-                  .map<Product>(Product.getProductFromSnapshot)
-                  .toList();
-              final List<CategoryModel> categories = categoriesRaw
-                  .map<CategoryModel>(CategoryModel.getCategoryFromSnapshot)
-                  .toList();
+        final List<Product> products =
+            productsRaw.map<Product>(Product.getProductFromSnapshot).toList();
+        final List<CategoryModel> categories = categoriesRaw
+            .map<CategoryModel>(CategoryModel.getCategoryFromSnapshot)
+            .toList();
 
-              return Categories(categories: categories, products: products);
-            },
-          ),
-        ),
-      ],
+        return Categories(categories: categories, products: products);
+      },
     );
   }
 }
